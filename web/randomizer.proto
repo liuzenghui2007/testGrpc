@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package randomizer;
+
+// 定义服务
+service RandomizerService {
+  // 一元接口，返回一个随机字符串
+  rpc GetRandomString(Empty) returns (RandomStringResponse);
+
+  // 流接口，持续返回随机UUID
+  rpc GetRandomUUIDStream(Empty) returns (stream RandomUUIDResponse);
+}
+
+// 空请求
+message Empty {}
+
+// 随机字符串响应
+message RandomStringResponse {
+  string value = 1;
+}
+
+// 随机UUID响应
+message RandomUUIDResponse {
+  string uuid = 1;
+}

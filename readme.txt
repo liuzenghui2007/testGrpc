@@ -4,8 +4,11 @@
 
 
 
+pip install grpcio grpcio-tools
 
 brew install protobuf
 protoc --versioin
 
-protoc ../randomizer.proto --js_out=import_style=commonjs:./client --grpc-web_out=import_style=commonjs,mode=grpcwebtext:./client
+cnpm i google-protobuf @types/google-protobuf @improbable-eng/grpc-web --save
+cnpm i ts-protoc-gen
+bash compile.sh
