@@ -1,7 +1,5 @@
-const {
-  RandomizerServicePromiseClient,
-} = require("./client/randomizer_pb_service");
-const { Empty } = require("./client/randomizer_pb");
+import { RandomizerServiceClient } from "./client/randomizer_pb_service.js";
+// import { Empty } from "./client/randomizer_pb.js";
 
 const client = new RandomizerServicePromiseClient(
   "http://localhost:8080",
@@ -10,11 +8,11 @@ const client = new RandomizerServicePromiseClient(
 );
 
 function getRandomString() {
-  return client.getRandomString(new Empty(), {});
+  return client.getRandomString({}, {});
 }
 
 function getRandomUUIDStream() {
-  const stream = client.getRandomUUIDStream(new Empty());
+  const stream = client.getRandomUUIDStream({});
   stream.on("data", (response) => {
     console.log(response.getUuid());
   });
@@ -23,4 +21,4 @@ function getRandomUUIDStream() {
   });
 }
 
-module.exports = { getRandomString, getRandomUUIDStream };
+export { getRandomString, getRandomUUIDStream };

@@ -12,3 +12,9 @@ protoc --versioin
 cnpm i google-protobuf @types/google-protobuf @improbable-eng/grpc-web --save
 cnpm i ts-protoc-gen
 bash compile.sh
+
+
+RandomizerClient.js:1 Uncaught SyntaxError: Cannot use import statement outside a module 
+
+安装Live server
+该插件安装完成后，在index.html页面右键选择Open with Live Server
