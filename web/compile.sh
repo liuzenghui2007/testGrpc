@@ -1,3 +1,5 @@
+# https://www.npmjs.com/package/ts-protoc-gen
+
 # Path to this plugin, Note this must be an abolsute path on Windows (see #15)
 PROTOC_GEN_TS_PATH="./node_modules/.bin/protoc-gen-ts"
 
