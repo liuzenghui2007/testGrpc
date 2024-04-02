@@ -6,19 +6,16 @@ const serviceHost = "http://localhost:5005"; // 请根据实际情况调整服�
 const client = new RandomizerServiceClient(serviceHost);
 
 // 定义异步函数，用于获取随机字符串
-const getOne = async () => {
-  // 创建请求对象
+const getOne = () => {
   const req = new proto.randomizer.Empty();
-  console.log("req", req);
-
-  // 调用 gRPC 服务，并等待响应
-  const response = client.getRandomString(req, {}, function (err, response) {
-    if (err) {
-      console.log(err.code);
-      console.log(err.message);
-    } else {
-      console.log(response.toObject());
-    }
+  return new Promise((resolve, reject) => {
+    client.getRandomString(req, {}, (err, response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response.toObject());
+      }
+    });
   });
 };
 

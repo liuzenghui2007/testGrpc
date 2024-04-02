@@ -8,28 +8,31 @@
     <h1>gRPC-Web Client Test</h1>
     <div id="app">
         <div>{{ message }}</div>
+        <div>{{ randomString }}</div>
     </div>
 
     <script type="module">
-      import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-      // 导入 api.js 中的函数
-      import {  getOne } from './api.js'
+      import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+      import { getOne } from './api.js';
     
       createApp({
         setup() {
-          const message = ref('Hello Vue!')
-          const randomString = ref('')
-          const randomUUID = ref('')
-          
-          getOne()
+          const message = ref('Hello Vue!');
+          const randomString = ref('');
+    
+          getOne().then(result => {
+            randomString.value = result.value; // Assuming the result has a property named 'value'
+          }).catch(error => {
+            console.error("Failed to get data:", error);
+          });
     
           return {
             message,
-            randomString,
-            randomUUID
+            randomString
           }
         }
       }).mount('#app')
     </script>
+    
 </body>
 </html>
