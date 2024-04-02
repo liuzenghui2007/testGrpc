@@ -8,7 +8,7 @@ from concurrent import futures
 # 加载证书和密钥
 with open('server.crt', 'rb') as f:
     server_cert = f.read()
-with open('server.key', 'rb') as f:
+with open('serverk.key', 'rb') as f:
     server_key = f.read()
     
 class RandomizerService(randomizer_pb2_grpc.RandomizerServiceServicer):
