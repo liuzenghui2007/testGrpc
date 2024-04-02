@@ -3,32 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>gRPC-Web Test</title>
-    <script src="RandomizerClient.js" type="module"></script>
-</head>
+   </head>
 <body>
     <h1>gRPC-Web Client Test</h1>
-    <button id="getStringBtn">Get Random String</button>
-    <p id="randomString">Random String will appear here...</p>
-    <button id="getUUIDStreamBtn">Start Random UUID Stream</button>
-    <ul id="uuidList"></ul>
+    <div id="app">{{ message }}</div>
 
-    <script>
-        document.getElementById('getStringBtn').onclick = function() {
-            getRandomString().then(response => {
-                document.getElementById('randomString').textContent = response.getValue();
-            }).catch(error => {
-                console.error(error);
-            });
-        };
-
-        document.getElementById('getUUIDStreamBtn').onclick = function() {
-            const uuidList = document.getElementById('uuidList');
-            getRandomUUIDStream().on('data', response => {
-                const li = document.createElement('li');
-                li.textContent = response.getUuid();
-                uuidList.appendChild(li);
-            });
-        };
+    <script type="module">
+      import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+      import {RandomizerService, RandomizerServiceClient} from './client/es6/client/randomizer_pb_service.js'
+      createApp({
+        setup() {
+          const message = ref('Hello Vue!')
+          console.log(RandomizerService)
+          console.log(RandomizerServiceClient)
+          return {
+            message
+          }
+        }
+      }).mount('#app')
     </script>
 </body>
 </html>
