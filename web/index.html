@@ -6,17 +6,13 @@
 </head>
 <body>
     <h1>gRPC-Web Client Test</h1>
-    <!-- 这里在Vue应用外部，不能使用Vue -->
     <button id="fetchStreams">Fetch Streams - outside Vue</button>
     <div id="streams-container"></div>
         
     <div id="app">
         <button @click="fetchRandomStrings">Fetch Random Strings</button>
-        <!-- 显示总成功数和失败数 -->
         <h2>Total Success: {{ totalSuccess }}</h2>
         <h2>Total Failures: {{ totalFailures }}</h2>
-
-        <!-- 混合显示成功和失败的请求 -->
         <div v-for="item in requests" :key="item.index">
             <span v-if="item.status === 'success'">
                 {{ item.index }} : Success - {{ item.str }}
@@ -27,41 +23,48 @@
         </div>
     </div>
 
-    <!-- 新增按钮和显示区域 -->
     <button id="fetchMultipleStreams">Fetch Multiple Streams</button>
     <div id="multipleStreamsContainer"></div>
+    <h3 id="totalDataCount">Total Data Received: 0</h3>
 
     <script type="module">
-      import { createApp, ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
-      import { getOne, getStream } from './api.js';
+      import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+      import { getStream } from './api.js';
 
       createApp({
-        setup() {
-          // Existing Vue app setup...
-        }
+        // Existing Vue app setup...
       }).mount('#app');
 
-      // Handling fetching multiple streams
+      let totalDataReceived = 0;
+
       document.getElementById('fetchMultipleStreams').addEventListener('click', () => {
         const container = document.getElementById('multipleStreamsContainer');
-        container.innerHTML = ''; // Clear previous results
+        container.innerHTML = '';
+        document.getElementById('totalDataCount').textContent = 'Total Data Received: 0';
+        totalDataReceived = 0;
+
         for (let i = 0; i < 10; i++) {
           const streamContainer = document.createElement('div');
           streamContainer.id = `multiple-stream-${i}`;
-          streamContainer.innerHTML = `<h3>Stream ${i}</h3>`;
+          streamContainer.innerHTML = `<h3>Stream ${i} <span id="stream-count-${i}">(0)</span></h3><span id="stream-data-${i}">Data: </span>`;
           container.appendChild(streamContainer);
+
+          let streamDataCount = 0; // Initialize stream data count
 
           const stream = getStream();
           stream.on('data', (response) => {
-            const message = document.createElement('p');
-            console.log('stream response', response.toObject())
-            message.textContent = response.toObject().uuid; // Assuming getMessage() is the method to get the message from the response
-            streamContainer.appendChild(message);
+            const dataSpan = document.getElementById(`stream-data-${i}`);
+            const countSpan = document.getElementById(`stream-count-${i}`);
+            dataSpan.textContent += `${response.toObject().uuid}, `;
+            streamDataCount++; // Increment stream data count
+            countSpan.textContent = `(${streamDataCount})`; // Update count display
+            totalDataReceived++;
+            document.getElementById('totalDataCount').textContent = `Total Data Received: ${totalDataReceived}`;
           });
 
           stream.on('end', () => {
-            const message = document.createElement('p');
-            message.textContent = 'Stream ended.';
+            const message = document.createElement('span');
+            message.textContent = ' Stream ended.';
             streamContainer.appendChild(message);
           });
         }
