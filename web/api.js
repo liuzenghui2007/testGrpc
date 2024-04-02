@@ -19,5 +19,12 @@ const getOne = () => {
   });
 };
 
+// 定义函数，用于获取随机UUID流
+const getStream = () => {
+  const req = new proto.randomizer.Empty();
+  const stream = client.getRandomUUIDStream(req, {});
+  return stream; // 返回流对象，以便外部可以监听数据和结束事件
+};
+
 // 导出函数
-export { getOne };
+export { getOne, getStream };

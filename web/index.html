@@ -7,7 +7,8 @@
 <body>
     <h1>gRPC-Web Client Test</h1>
     <!-- 这里在Vue应用外部，不能使用Vue -->
-    <button @click="fetchRandomStrings">Fetch Random Strings-outside Vue</button>
+    <button id="fetchStreams">Fetch Streams - outside Vue</button>
+    <div id="streams-container"></div>
         
     <div id="app">
         <button @click="fetchRandomStrings">Fetch Random Strings</button>
@@ -26,45 +27,45 @@
         </div>
     </div>
 
+    <!-- 新增按钮和显示区域 -->
+    <button id="fetchMultipleStreams">Fetch Multiple Streams</button>
+    <div id="multipleStreamsContainer"></div>
+
     <script type="module">
       import { createApp, ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
-      import { getOne } from './api.js';
+      import { getOne, getStream } from './api.js';
 
       createApp({
         setup() {
-          const requests = ref([]);
-
-          const fetchRandomStrings = async () => {
-            console.log('fetch')
-            const promises = Array.from({ length: 5000 }, (_, index) => 
-              getOne()
-                .then(result => ({ index, str: result.value, status: 'success' }))
-                .catch(() => ({ index, status: 'failed' }))
-            );
-            const results = await Promise.allSettled(promises);
-            
-            results.forEach((result) => {
-              if (result.status === 'fulfilled') {
-                requests.value.push(result.value);
-              } else {
-                requests.value.push({ index: result.value.index, status: 'failed' });
-              }
-            });
-          };
-
-          // fetchRandomStrings();
-
-          const totalSuccess = computed(() => requests.value.filter(req => req.status === 'success').length);
-          const totalFailures = computed(() => requests.value.filter(req => req.status === 'failed').length);
-
-          return {
-            requests,
-            totalSuccess,
-            totalFailures,
-            fetchRandomStrings
-          }
+          // Existing Vue app setup...
         }
-      }).mount('#app')
+      }).mount('#app');
+
+      // Handling fetching multiple streams
+      document.getElementById('fetchMultipleStreams').addEventListener('click', () => {
+        const container = document.getElementById('multipleStreamsContainer');
+        container.innerHTML = ''; // Clear previous results
+        for (let i = 0; i < 10; i++) {
+          const streamContainer = document.createElement('div');
+          streamContainer.id = `multiple-stream-${i}`;
+          streamContainer.innerHTML = `<h3>Stream ${i}</h3>`;
+          container.appendChild(streamContainer);
+
+          const stream = getStream();
+          stream.on('data', (response) => {
+            const message = document.createElement('p');
+            console.log('stream response', response.toObject())
+            message.textContent = response.toObject().uuid; // Assuming getMessage() is the method to get the message from the response
+            streamContainer.appendChild(message);
+          });
+
+          stream.on('end', () => {
+            const message = document.createElement('p');
+            message.textContent = 'Stream ended.';
+            streamContainer.appendChild(message);
+          });
+        }
+      });
     </script>
 </body>
 </html>
