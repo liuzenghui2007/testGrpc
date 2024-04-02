@@ -12,7 +12,10 @@ OUT_DIR="./client"
 
 protoc \
   --plugin=protoc-gen-ts=${PROTOC_GEN_TS_PATH} \
+  --js_out=import_style=commonjs,binary:${OUT_DIR} \
   --ts_out=service=grpc-web:${OUT_DIR} \
   **.proto
 
 # npx babel ${OUT_DIR} --out-dir es6
+
+cross-env npx rollup --config ./rollup.improbable-p1000.js

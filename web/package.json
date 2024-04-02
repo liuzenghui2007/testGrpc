@@ -12,6 +12,12 @@
   "devDependencies": {
     "@babel/cli": "^7.24.1",
     "@babel/core": "^7.24.3",
-    "@babel/preset-env": "^7.24.3"
+    "@babel/preset-env": "^7.24.3",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "cross-env": "^7.0.3",
+    "rimraf": "^5.0.5",
+    "rollup": "2.78.0",
+    "rollup-plugin-multi-input": "^1.4.1"
   }
 }
