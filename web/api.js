@@ -5,10 +5,13 @@ import { RandomizerServiceClient } from "./client/es6/client/randomizer_pb_servi
 const serviceHost = "http://localhost:5005"; // 请根据实际情况调整服务地址
 const client = new RandomizerServiceClient(serviceHost);
 
+const oneCallback = (data) => {
+  console.log(data);
+};
 const getOne = () => {
   const req = new proto.randomizer.Empty();
   console.log("req", req);
-  const res = client.getRandomString(req);
+  const res = client.getRandomString(req, oneCallback);
   console.log("getOne", res);
 };
 
