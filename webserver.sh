@@ -7,10 +7,11 @@
 # --server_http_max_read_timeout 和 --server_http_max_write_timeout 可以根据需要调整超时设置
 python server.py &
 
-./grpcwebproxy \
-  --allow_all_origins \
-  --backend_addr=localhost:50051 \
-  --server_http_debug_port=5005 \
-  --run_tls_server=false \
-  --server_http_max_read_timeout=1h \
-  --server_http_max_write_timeout=1h
+# ./grpcwebproxy \
+# ./grpcwebproxy-v0.15.0-osx-x86_64 \
+#   --allow_all_origins \
+#   --backend_addr=localhost:50051 \
+#   --server_http_debug_port=5005 \
+#   --run_tls_server=false \
+#   --server_http_max_read_timeout=1h \
+#   --server_http_max_write_timeout=1h
