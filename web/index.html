@@ -30,38 +30,43 @@
     <script type="module">
       import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
       import { getStream } from './api.js';
-
+    
       createApp({
         // Existing Vue app setup...
       }).mount('#app');
-
+    
       let totalDataReceived = 0;
-
+    
       document.getElementById('fetchMultipleStreams').addEventListener('click', () => {
         const container = document.getElementById('multipleStreamsContainer');
         container.innerHTML = '';
         document.getElementById('totalDataCount').textContent = 'Total Data Received: 0';
         totalDataReceived = 0;
-
+    
         for (let i = 0; i < 10; i++) {
           const streamContainer = document.createElement('div');
           streamContainer.id = `multiple-stream-${i}`;
           streamContainer.innerHTML = `<h3>Stream ${i} <span id="stream-count-${i}">(0)</span></h3><span id="stream-data-${i}">Data: </span>`;
           container.appendChild(streamContainer);
-
+    
           let streamDataCount = 0; // Initialize stream data count
-
+    
           const stream = getStream();
           stream.on('data', (response) => {
-            const dataSpan = document.getElementById(`stream-data-${i}`);
-            const countSpan = document.getElementById(`stream-count-${i}`);
-            dataSpan.textContent += `${response.toObject().uuid}, `;
-            streamDataCount++; // Increment stream data count
-            countSpan.textContent = `(${streamDataCount})`; // Update count display
-            totalDataReceived++;
-            document.getElementById('totalDataCount').textContent = `Total Data Received: ${totalDataReceived}`;
+            if (streamDataCount < 100) { // Check if the stream has received less than 100 messages
+              const dataSpan = document.getElementById(`stream-data-${i}`);
+              const countSpan = document.getElementById(`stream-count-${i}`);
+              dataSpan.textContent += `${response.toObject().uuid}, `;
+              streamDataCount++; // Increment stream data count
+              countSpan.textContent = `(${streamDataCount})`; // Update count display
+              totalDataReceived++;
+              document.getElementById('totalDataCount').textContent = `Total Data Received: ${totalDataReceived}`;
+            } else {
+              // Optional: Implement logic to "close" or stop processing the stream if possible
+              stream.cancel();
+            }
           });
-
+    
           stream.on('end', () => {
             const message = document.createElement('span');
             message.textContent = ' Stream ended.';
