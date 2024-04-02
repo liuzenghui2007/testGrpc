@@ -5,8 +5,8 @@ import time
 import uuid
 from concurrent import futures
 
-crt = "/Users/liu/out/polyseq.com.crt"
-key = "/Users/liu/out/polyseq.com.key"
+crt = "/Users/liu/out/localhost.crt"
+key = "/Users/liu/out/localhost.key"
 
 class RandomizerService(randomizer_pb2_grpc.RandomizerServiceServicer):
 
@@ -31,7 +31,7 @@ def serve():
     server_credentials = grpc.ssl_server_credentials(
         [(open(crt, "rb").read(), open(key, "rb").read())]
     )    
-    server.add_secure_port('127.0.0.1:50051', server_credentials)
+    server.add_secure_port('localhost:50051', server_credentials)
     server.start()
     server.wait_for_termination()
 
