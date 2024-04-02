@@ -7,32 +7,35 @@
 <body>
     <h1>gRPC-Web Client Test</h1>
     <div id="app">
-        <div>{{ message }}</div>
-        <div>{{ randomString }}</div>
+        <div v-for="str in randomStrings" :key="str">{{ str }}</div>
     </div>
 
     <script type="module">
       import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
       import { getOne } from './api.js';
-    
+
       createApp({
         setup() {
-          const message = ref('Hello Vue!');
-          const randomString = ref('');
-    
-          getOne().then(result => {
-            randomString.value = result.value; // Assuming the result has a property named 'value'
-          }).catch(error => {
-            console.error("Failed to get data:", error);
-          });
-    
+          const randomStrings = ref([]);
+
+          const fetchRandomStrings = async () => {
+            for (let i = 0; i < 1000; i++) {
+              try {
+                const result = await getOne();
+                randomStrings.value.push(result.value); // 根据实际返回的对象属性调整
+              } catch (error) {
+                console.error("Failed to get data:", error);
+              }
+            }
+          };
+
+          fetchRandomStrings();
+
           return {
-            message,
-            randomString
+            randomStrings
           }
         }
       }).mount('#app')
     </script>
-    
 </body>
 </html>
