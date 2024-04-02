@@ -8,10 +8,9 @@
 python server.py
 
 grpcwebproxy \
+  --allow_all_origins \
   --backend_addr=localhost:50051 \
-  --server_bind_address=0.0.0.0 \
   --server_http_debug_port=5005 \
   --run_tls_server=false \
-  --allow_all_origins=true \
   --server_http_max_read_timeout=1h \
   --server_http_max_write_timeout=1h
