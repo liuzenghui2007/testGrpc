@@ -3,21 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>gRPC-Web Test</title>
-   </head>
+</head>
 <body>
     <h1>gRPC-Web Client Test</h1>
-    <div id="app">{{ message }}</div>
+    <div id="app">
+        <div>{{ message }}</div>
+        <button @click="getRandomString">Get Random String</button>
+        <button @click="getRandomUUIDStream">Get Random UUID Stream</button>
+        <div>Random String: {{ randomString }}</div>
+        <div>Random UUID: {{ randomUUID }}</div>
+    </div>
 
     <script type="module">
       import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-      import {RandomizerService, RandomizerServiceClient} from './client/es6/client/randomizer_pb_service.js'
+      // 导入 api.js 中的函数
+      import { callGetRandomString, callGetRandomUUIDStream } from './api.js'
+    
       createApp({
         setup() {
           const message = ref('Hello Vue!')
-          console.log(RandomizerService)
-          console.log(RandomizerServiceClient)
+          const randomString = ref('')
+          const randomUUID = ref('')
+    
+          // 使用导入的函数
+          const getRandomString = () => {
+            callGetRandomString().then(value => {
+              randomString.value = value;
+            }).catch(err => console.error(err));
+          }
+    
+          const getRandomUUIDStream = () => {
+            callGetRandomUUIDStream().then(value => {
+              randomUUID.value = value;
+            }).catch(err => console.error(err));
+          }
+    
           return {
-            message
+            message,
+            getRandomString,
+            getRandomUUIDStream,
+            randomString,
+            randomUUID
           }
         }
       }).mount('#app')
