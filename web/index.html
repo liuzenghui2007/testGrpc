@@ -56,7 +56,7 @@
             if (streamDataCount < 100) { // Check if the stream has received less than 100 messages
               const dataSpan = document.getElementById(`stream-data-${i}`);
               const countSpan = document.getElementById(`stream-count-${i}`);
-              dataSpan.textContent += `${response.toObject().uuid}, `;
+              dataSpan.textContent += `${response.toObject().uuid.slice(0,2)}, `;
               streamDataCount++; // Increment stream data count
               countSpan.textContent = `(${streamDataCount})`; // Update count display
               totalDataReceived++;
