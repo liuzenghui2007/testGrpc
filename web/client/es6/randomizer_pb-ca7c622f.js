@@ -555,8 +555,6 @@ goog.TRUSTED_TYPES_POLICY_NAME="";goog.identity_=function(a){return a};goog.crea
 	 * @public
 	 */
 	// GENERATED CODE -- DO NOT EDIT!
-	/* eslint-disable */
-	// @ts-nocheck
 
 	var jspb = googleProtobuf;
 	var goog = jspb;
