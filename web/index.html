@@ -7,7 +7,8 @@
 <body>
     <h1>gRPC-Web Client Test</h1>
     <div id="app">
-        <div v-for="str in randomStrings" :key="str">{{ str }}</div>
+        <!-- 使用 v-for 显示每个随机字符串 -->
+        <div v-for="(str,i) in randomStrings" :key="str">{{i}} : {{ str }}</div>
     </div>
 
     <script type="module">
@@ -19,13 +20,19 @@
           const randomStrings = ref([]);
 
           const fetchRandomStrings = async () => {
-            for (let i = 0; i < 1000; i++) {
-              try {
-                const result = await getOne();
-                randomStrings.value.push(result.value); // 根据实际返回的对象属性调整
-              } catch (error) {
-                console.error("Failed to get data:", error);
-              }
+            // 创建一个包含1000个getOne调用的promise数组
+            const promises = Array.from({ length: 1000 }, () => getOne());
+            try {
+              // 使用Promise.all并发执行所有请求
+              const results = await Promise.all(promises);
+              // 将每个结果的value属性添加到randomStrings数组中
+              results.forEach(result => {
+                if (result && result.value) {
+                  randomStrings.value.push(result.value); // 根据实际返回的对象属性调整
+                }
+              });
+            } catch (error) {
+              console.error("Failed to get data:", error);
             }
           };
 
