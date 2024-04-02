@@ -7,39 +7,55 @@
 <body>
     <h1>gRPC-Web Client Test</h1>
     <div id="app">
-        <!-- 使用 v-for 显示每个随机字符串 -->
-        <div v-for="(str,i) in randomStrings" :key="str">{{i}} : {{ str }}</div>
+        <!-- 显示总成功数和失败数 -->
+        <h2>Total Success: {{ totalSuccess }}</h2>
+        <h2>Total Failures: {{ totalFailures }}</h2>
+
+        <!-- 混合显示成功和失败的请求 -->
+        <div v-for="item in requests" :key="item.index">
+            <span v-if="item.status === 'success'">
+                {{ item.index }} : Success - {{ item.str }}
+            </span>
+            <span v-else="">
+                {{ item.index }} : Failed
+            </span>
+        </div>
     </div>
 
     <script type="module">
-      import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+      import { createApp, ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
       import { getOne } from './api.js';
 
       createApp({
         setup() {
-          const randomStrings = ref([]);
+          const requests = ref([]);
 
           const fetchRandomStrings = async () => {
-            // 创建一个包含1000个getOne调用的promise数组
-            const promises = Array.from({ length: 1000 }, () => getOne());
-            try {
-              // 使用Promise.all并发执行所有请求
-              const results = await Promise.all(promises);
-              // 将每个结果的value属性添加到randomStrings数组中
-              results.forEach(result => {
-                if (result && result.value) {
-                  randomStrings.value.push(result.value); // 根据实际返回的对象属性调整
-                }
-              });
-            } catch (error) {
-              console.error("Failed to get data:", error);
-            }
+            const promises = Array.from({ length: 5000 }, (_, index) => 
+              getOne()
+                .then(result => ({ index, str: result.value, status: 'success' }))
+                .catch(() => ({ index, status: 'failed' }))
+            );
+            const results = await Promise.allSettled(promises);
+            
+            results.forEach((result) => {
+              if (result.status === 'fulfilled') {
+                requests.value.push(result.value);
+              } else {
+                requests.value.push({ index: result.value.index, status: 'failed' });
+              }
+            });
           };
 
           fetchRandomStrings();
 
+          const totalSuccess = computed(() => requests.value.filter(req => req.status === 'success').length);
+          const totalFailures = computed(() => requests.value.filter(req => req.status === 'failed').length);
+
           return {
-            randomStrings
+            requests,
+            totalSuccess,
+            totalFailures
           }
         }
       }).mount('#app')
