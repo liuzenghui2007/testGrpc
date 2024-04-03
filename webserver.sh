@@ -12,8 +12,8 @@ python server.py &
   --allow_all_origins \
   --backend_addr=localhost:50051 \
   --server_http_debug_port=5005 \
-  --server_tls_cert_file=/home/zenghui/polyseq/testGrpc/server.crt \
-  --server_tls_key_file=/home/zenghui/polyseq/testGrpc/serverk.key \
+  --server_tls_cert_file=/home/zenghui/polyseq/testGrpc/out/localhost.crt \
+  --server_tls_key_file=/home/zenghui/polyseq/testGrpc/out/localhost.key \
   --backend_tls \
   --server_http_max_read_timeout=1h \
   --server_http_max_write_timeout=1h
