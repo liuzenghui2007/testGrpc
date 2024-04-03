@@ -11,9 +11,15 @@ python server.py &
 ./grpcwebproxy \
   --allow_all_origins \
   --backend_addr=localhost:50051 \
-  --server_http_debug_port=5005 \
-  --server_tls_cert_file=/home/zenghui/polyseq/testGrpc/out/localhost.crt \
-  --server_tls_key_file=/home/zenghui/polyseq/testGrpc/out/localhost.key \
+  --server_http_tls_port=5005 \
+  --run_http_server=false \
+  --server_tls_cert_file=/home/polyseq/testGrpc/out/localhost.crt \
+  --server_tls_key_file=/home/polyseq/testGrpc/out/localhost.key \
   --backend_tls \
+  --server_tls_client_cert_verification=none \
   --server_http_max_read_timeout=1h \
   --server_http_max_write_timeout=1h
+
+
+# sudo cp out/localhost.crt /usr/local/share/ca-certificates/localhost.crt
+# sudo update-ca-certificates
