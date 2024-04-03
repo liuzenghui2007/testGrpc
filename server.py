@@ -10,7 +10,8 @@ with open('server.crt', 'rb') as f:
     server_cert = f.read()
 with open('serverk.key', 'rb') as f:
     server_key = f.read()
-    
+
+
 class RandomizerService(randomizer_pb2_grpc.RandomizerServiceServicer):
 
     def GetRandomString(self, request, context):
@@ -30,8 +31,9 @@ def serve():
         RandomizerService(), server)
    # 配置服务器以使用 TLS
     # 配置服务器以使用 TLS
-    server_credentials = grpc.ssl_server_credentials(((server_key, server_cert,),))
-    server.add_secure_port('[::]:50051', server_credentials)
+    server_credentials = grpc.ssl_server_credentials(
+        ((server_key, server_cert,),))
+    server.add_secure_port('localhost:50051', server_credentials)
     server.start()
     server.wait_for_termination()
 

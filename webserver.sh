@@ -7,13 +7,13 @@
 # --server_http_max_read_timeout 和 --server_http_max_write_timeout 可以根据需要调整超时设置
 python server.py &
 
-# ./grpcwebproxy \
-./grpcwebproxy-v0.15.0-osx-x86_64 \
+# ./grpcwebproxy-v0.15.0-osx-x86_64 \
+./grpcwebproxy \
   --allow_all_origins \
   --backend_addr=localhost:50051 \
   --server_http_debug_port=5005 \
-  --server_tls_cert_file=/Users/liu/testGrpc/server.crt \
-  --server_tls_key_file=/Users/liu/testGrpc/serverk.key \
+  --server_tls_cert_file=/home/zenghui/polyseq/testGrpc/server.crt \
+  --server_tls_key_file=/home/zenghui/polyseq/testGrpc/serverk.key \
   --backend_tls \
   --server_http_max_read_timeout=1h \
   --server_http_max_write_timeout=1h
