@@ -7,10 +7,9 @@
 # --server_http_max_read_timeout 和 --server_http_max_write_timeout 可以根据需要调整超时设置
 python server3.py &
 
-# ./grpcwebproxy-v0.15.0-osx-x86_64 \
-./grpcwebproxy \
-  --server_tls_cert_file=/home/polyseq/testGrpc/ssl/service.pem \
-  --server_tls_key_file=/home/polyseq/testGrpc/ssl/service.key \
+./grpcwebproxy-v0.15.0-osx-x86_64 \
+  --server_tls_cert_file=/Users/liu/testGrpc/ssl/service.pem \
+  --server_tls_key_file=/Users/liu/testGrpc/ssl/service.key \
   --backend_addr=127.0.0.1:50051 \
   --backend_tls_noverify \
   --backend_tls=true \
