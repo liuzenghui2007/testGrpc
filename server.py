@@ -1,37 +1,36 @@
 import grpc
 from concurrent import futures
 import numpy as np
-import data_pb2
-import data_pb2_grpc
+import time
 
-# Import the generate_signal function from gen_dna.py
-from gen_dna import generate_signal, SAMPLE_RATE, DURATION
+import array_pb2
+import array_pb2_grpc
 
-class RandomizerService(data_pb2_grpc.RandomizerServiceServicer):
-    def GetRandomArray(self, request, context):
-        # Generate a 640x512 array using generate_signal
-        array_response = data_pb2.ArrayResponse()
-        for _ in range(640):
-            float_array = array_response.data.add()
-            signal = generate_signal(SAMPLE_RATE * DURATION)
-            float_array.items.extend(signal[:512])  # Assuming you want the first 512 samples
-        return array_response
+# 实现ArrayService服务
+class ArrayService(array_pb2_grpc.ArrayServiceServicer):
+    def GetArray(self, request, context):
+        array = np.random.rand(512, 640).astype(np.float32)  # 生成随机数组
+        response = array_pb2.ArrayResponse()
+        for row in array:
+            response.row.extend(row)  # 每一行添加到response中
+        return response
 
-    def GetRandomArrayStream(self, request, context):
-        while True:
-            array_response = data_pb2.ArrayResponse()
-            for _ in range(640):
-                float_array = array_response.data.add()
-                signal = generate_signal(SAMPLE_RATE * DURATION)
-                float_array.items.extend(signal[:512])  # Assuming you want the first 512 samples
-            yield array_response
+    def GetArrayStream(self, request, context):
+        for _ in range(5):  # 示例：生成5个随机数组流
+            array = np.random.rand(512, 640).astype(np.float32)
+            response = array_pb2.ArrayResponse()
+            for row in array:
+                response.row.extend(row)
+            yield response
+            time.sleep(1)  # 模拟延迟
 
+# 启动 gRPC 服务器
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    data_pb2_grpc.add_RandomizerServiceServicer_to_server(RandomizerService(), server)
+    array_pb2_grpc.add_ArrayServiceServicer_to_server(ArrayService(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
-    print("Server started on port 50051")
+    print("Server started, listening on port 50051.")
     server.wait_for_termination()
 
 if __name__ == '__main__':
