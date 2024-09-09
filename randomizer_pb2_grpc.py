@@ -25,6 +25,16 @@ class RandomizerServiceStub(object):
                 request_serializer=randomizer__pb2.Empty.SerializeToString,
                 response_deserializer=randomizer__pb2.RandomUUIDResponse.FromString,
                 )
+        self.GetArray = channel.unary_unary(
+                '/randomizer.RandomizerService/GetArray',
+                request_serializer=randomizer__pb2.Empty.SerializeToString,
+                response_deserializer=randomizer__pb2.ArrayResponse.FromString,
+                )
+        self.GetArrayStream = channel.unary_stream(
+                '/randomizer.RandomizerService/GetArrayStream',
+                request_serializer=randomizer__pb2.Empty.SerializeToString,
+                response_deserializer=randomizer__pb2.ArrayResponse.FromString,
+                )
 
 
 class RandomizerServiceServicer(object):
@@ -45,6 +55,20 @@ class RandomizerServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetArray(self, request, context):
+        """获取单个640x512的数组
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetArrayStream(self, request, context):
+        """获取640x512的数组流
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_RandomizerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -57,6 +81,16 @@ def add_RandomizerServiceServicer_to_server(servicer, server):
                     servicer.GetRandomUUIDStream,
                     request_deserializer=randomizer__pb2.Empty.FromString,
                     response_serializer=randomizer__pb2.RandomUUIDResponse.SerializeToString,
+            ),
+            'GetArray': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetArray,
+                    request_deserializer=randomizer__pb2.Empty.FromString,
+                    response_serializer=randomizer__pb2.ArrayResponse.SerializeToString,
+            ),
+            'GetArrayStream': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetArrayStream,
+                    request_deserializer=randomizer__pb2.Empty.FromString,
+                    response_serializer=randomizer__pb2.ArrayResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -100,5 +134,39 @@ class RandomizerService(object):
         return grpc.experimental.unary_stream(request, target, '/randomizer.RandomizerService/GetRandomUUIDStream',
             randomizer__pb2.Empty.SerializeToString,
             randomizer__pb2.RandomUUIDResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetArray(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/randomizer.RandomizerService/GetArray',
+            randomizer__pb2.Empty.SerializeToString,
+            randomizer__pb2.ArrayResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetArrayStream(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/randomizer.RandomizerService/GetArrayStream',
+            randomizer__pb2.Empty.SerializeToString,
+            randomizer__pb2.ArrayResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

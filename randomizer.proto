@@ -9,6 +9,12 @@ service RandomizerService {
 
   // 流接口，持续返回随机UUID
   rpc GetRandomUUIDStream(Empty) returns (stream RandomUUIDResponse);
+
+    // 获取单个640x512的数组
+    rpc GetArray(Empty) returns (ArrayResponse);
+
+    // 获取640x512的数组流
+    rpc GetArrayStream(Empty) returns (stream ArrayResponse);
 }
 
 // 空请求
@@ -22,4 +28,10 @@ message RandomStringResponse {
 // 随机UUID响应
 message RandomUUIDResponse {
   string uuid = 1;
+}
+
+
+// 数组响应消息
+message ArrayResponse {
+  repeated float row = 1; // 存储数组的一行，640个float
 }
