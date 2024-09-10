@@ -1,6 +1,6 @@
 import grpc
-import randomizer_pb2
-import randomizer_pb2_grpc
+from protos import randomizer_pb2
+from protos import randomizer_pb2_grpc
 import time
 import uuid
 from concurrent import futures
@@ -11,7 +11,6 @@ class RandomizerService(randomizer_pb2_grpc.RandomizerServiceServicer):
 
     def GetRandomString(self, request, context):
         # 返回一个随机字符串
-        print('dd')
         return randomizer_pb2.RandomStringResponse(value="RandomString_" + str(uuid.uuid4()))
 
     def GetRandomUUIDStream(self, request, context):
@@ -23,7 +22,6 @@ class RandomizerService(randomizer_pb2_grpc.RandomizerServiceServicer):
     def GetArray(self, request, context):
         # 创建一个640x512的随机浮点数数组
         array = [random.random() for _ in range(640)]
-        print(array)
         return randomizer_pb2.ArrayResponse(row=array)
 
     def GetArrayStream(self, request, context):
