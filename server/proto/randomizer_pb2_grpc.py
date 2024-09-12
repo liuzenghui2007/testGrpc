@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import randomizer_pb2 as randomizer__pb2
+from proto import randomizer_pb2 as proto_dot_randomizer__pb2
 
 
 class RandomizerServiceStub(object):
@@ -17,23 +17,23 @@ class RandomizerServiceStub(object):
         """
         self.GetRandomString = channel.unary_unary(
                 '/randomizer.RandomizerService/GetRandomString',
-                request_serializer=randomizer__pb2.Empty.SerializeToString,
-                response_deserializer=randomizer__pb2.RandomStringResponse.FromString,
+                request_serializer=proto_dot_randomizer__pb2.Empty.SerializeToString,
+                response_deserializer=proto_dot_randomizer__pb2.RandomStringResponse.FromString,
                 )
         self.GetRandomUUIDStream = channel.unary_stream(
                 '/randomizer.RandomizerService/GetRandomUUIDStream',
-                request_serializer=randomizer__pb2.Empty.SerializeToString,
-                response_deserializer=randomizer__pb2.RandomUUIDResponse.FromString,
+                request_serializer=proto_dot_randomizer__pb2.Empty.SerializeToString,
+                response_deserializer=proto_dot_randomizer__pb2.RandomUUIDResponse.FromString,
                 )
         self.GetArray = channel.unary_unary(
                 '/randomizer.RandomizerService/GetArray',
-                request_serializer=randomizer__pb2.Empty.SerializeToString,
-                response_deserializer=randomizer__pb2.ArrayResponse.FromString,
+                request_serializer=proto_dot_randomizer__pb2.Empty.SerializeToString,
+                response_deserializer=proto_dot_randomizer__pb2.ArrayResponse.FromString,
                 )
         self.GetArrayStream = channel.unary_stream(
                 '/randomizer.RandomizerService/GetArrayStream',
-                request_serializer=randomizer__pb2.Empty.SerializeToString,
-                response_deserializer=randomizer__pb2.ArrayResponse.FromString,
+                request_serializer=proto_dot_randomizer__pb2.Empty.SerializeToString,
+                response_deserializer=proto_dot_randomizer__pb2.ArrayResponse.FromString,
                 )
 
 
@@ -74,23 +74,23 @@ def add_RandomizerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetRandomString': grpc.unary_unary_rpc_method_handler(
                     servicer.GetRandomString,
-                    request_deserializer=randomizer__pb2.Empty.FromString,
-                    response_serializer=randomizer__pb2.RandomStringResponse.SerializeToString,
+                    request_deserializer=proto_dot_randomizer__pb2.Empty.FromString,
+                    response_serializer=proto_dot_randomizer__pb2.RandomStringResponse.SerializeToString,
             ),
             'GetRandomUUIDStream': grpc.unary_stream_rpc_method_handler(
                     servicer.GetRandomUUIDStream,
-                    request_deserializer=randomizer__pb2.Empty.FromString,
-                    response_serializer=randomizer__pb2.RandomUUIDResponse.SerializeToString,
+                    request_deserializer=proto_dot_randomizer__pb2.Empty.FromString,
+                    response_serializer=proto_dot_randomizer__pb2.RandomUUIDResponse.SerializeToString,
             ),
             'GetArray': grpc.unary_unary_rpc_method_handler(
                     servicer.GetArray,
-                    request_deserializer=randomizer__pb2.Empty.FromString,
-                    response_serializer=randomizer__pb2.ArrayResponse.SerializeToString,
+                    request_deserializer=proto_dot_randomizer__pb2.Empty.FromString,
+                    response_serializer=proto_dot_randomizer__pb2.ArrayResponse.SerializeToString,
             ),
             'GetArrayStream': grpc.unary_stream_rpc_method_handler(
                     servicer.GetArrayStream,
-                    request_deserializer=randomizer__pb2.Empty.FromString,
-                    response_serializer=randomizer__pb2.ArrayResponse.SerializeToString,
+                    request_deserializer=proto_dot_randomizer__pb2.Empty.FromString,
+                    response_serializer=proto_dot_randomizer__pb2.ArrayResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -115,8 +115,8 @@ class RandomizerService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/randomizer.RandomizerService/GetRandomString',
-            randomizer__pb2.Empty.SerializeToString,
-            randomizer__pb2.RandomStringResponse.FromString,
+            proto_dot_randomizer__pb2.Empty.SerializeToString,
+            proto_dot_randomizer__pb2.RandomStringResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -132,8 +132,8 @@ class RandomizerService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/randomizer.RandomizerService/GetRandomUUIDStream',
-            randomizer__pb2.Empty.SerializeToString,
-            randomizer__pb2.RandomUUIDResponse.FromString,
+            proto_dot_randomizer__pb2.Empty.SerializeToString,
+            proto_dot_randomizer__pb2.RandomUUIDResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -149,8 +149,8 @@ class RandomizerService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/randomizer.RandomizerService/GetArray',
-            randomizer__pb2.Empty.SerializeToString,
-            randomizer__pb2.ArrayResponse.FromString,
+            proto_dot_randomizer__pb2.Empty.SerializeToString,
+            proto_dot_randomizer__pb2.ArrayResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -166,7 +166,7 @@ class RandomizerService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/randomizer.RandomizerService/GetArrayStream',
-            randomizer__pb2.Empty.SerializeToString,
-            randomizer__pb2.ArrayResponse.FromString,
+            proto_dot_randomizer__pb2.Empty.SerializeToString,
+            proto_dot_randomizer__pb2.ArrayResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

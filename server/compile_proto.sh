@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # 创建编译输出目录
-mkdir -p ./compiled_proto
+# mkdir -p ./compiled_proto
 
 # 使用 gRPC 工具编译 Protocol Buffers 文件
+# -I.. 回退到外层，不进入proto，这样编译出来的结果带proto，引入正常
+# 这时候不能自定义编译后的文件夹名称，自定义目前还没有成功
 python -m grpc_tools.protoc \
-    -I../proto \
-    --python_out=./compiled_proto \
-    --grpc_python_out=./compiled_proto \
+    -I.. \
+    --python_out=./ \
+    --grpc_python_out=./ \
     ../proto/*.proto
 
 # 详细说明：

@@ -1,6 +1,6 @@
 import grpc
-from compiled_proto import randomizer_pb2
-from compiled_proto import randomizer_pb2_grpc
+from proto import randomizer_pb2
+from proto import randomizer_pb2_grpc
 import time
 import uuid
 from concurrent import futures
