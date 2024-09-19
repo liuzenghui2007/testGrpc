@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16proto/randomizer.proto\x12\nrandomizer\"\x07\n\x05\x45mpty\"%\n\x14RandomStringResponse\x12\r\n\x05value\x18\x01 \x01(\t\"\"\n\x12RandomUUIDResponse\x12\x0c\n\x04uuid\x18\x01 \x01(\t\"\x1c\n\rArrayResponse\x12\x0b\n\x03row\x18\x01 \x03(\x02\x32\xa3\x02\n\x11RandomizerService\x12\x46\n\x0fGetRandomString\x12\x11.randomizer.Empty\x1a .randomizer.RandomStringResponse\x12J\n\x13GetRandomUUIDStream\x12\x11.randomizer.Empty\x1a\x1e.randomizer.RandomUUIDResponse0\x01\x12\x38\n\x08GetArray\x12\x11.randomizer.Empty\x1a\x19.randomizer.ArrayResponse\x12@\n\x0eGetArrayStream\x12\x11.randomizer.Empty\x1a\x19.randomizer.ArrayResponse0\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16proto/randomizer.proto\x12\nrandomizer\"\x07\n\x05\x45mpty\"%\n\x14RandomStringResponse\x12\r\n\x05value\x18\x01 \x01(\t\"\"\n\x12RandomUUIDResponse\x12\x0c\n\x04uuid\x18\x01 \x01(\t\"\x1c\n\rArrayResponse\x12\x0b\n\x03row\x18\x01 \x03(\x02\"8\n\rNumberArray2D\x12\'\n\x06matrix\x18\x01 \x03(\x0b\x32\x17.randomizer.NumberArray\"\x1d\n\x0bNumberArray\x12\x0e\n\x06values\x18\x01 \x03(\x02\x32\xdf\x02\n\x11RandomizerService\x12\x46\n\x0fGetRandomString\x12\x11.randomizer.Empty\x1a .randomizer.RandomStringResponse\x12J\n\x13GetRandomUUIDStream\x12\x11.randomizer.Empty\x1a\x1e.randomizer.RandomUUIDResponse0\x01\x12\x38\n\x08GetArray\x12\x11.randomizer.Empty\x1a\x19.randomizer.ArrayResponse\x12@\n\x0eGetArrayStream\x12\x11.randomizer.Empty\x1a\x19.randomizer.ArrayResponse0\x01\x12:\n\nGet2DArray\x12\x11.randomizer.Empty\x1a\x19.randomizer.NumberArray2Db\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -39,6 +39,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_RANDOMUUIDRESPONSE']._serialized_end=120
   _globals['_ARRAYRESPONSE']._serialized_start=122
   _globals['_ARRAYRESPONSE']._serialized_end=150
-  _globals['_RANDOMIZERSERVICE']._serialized_start=153
-  _globals['_RANDOMIZERSERVICE']._serialized_end=444
+  _globals['_NUMBERARRAY2D']._serialized_start=152
+  _globals['_NUMBERARRAY2D']._serialized_end=208
+  _globals['_NUMBERARRAY']._serialized_start=210
+  _globals['_NUMBERARRAY']._serialized_end=239
+  _globals['_RANDOMIZERSERVICE']._serialized_start=242
+  _globals['_RANDOMIZERSERVICE']._serialized_end=593
 # @@protoc_insertion_point(module_scope)

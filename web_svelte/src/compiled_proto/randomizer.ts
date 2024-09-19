@@ -30,6 +30,16 @@ export interface ArrayResponse {
   row: number[];
 }
 
+export interface NumberArray2D {
+  /** Each row is an array of numbers */
+  matrix: NumberArray[];
+}
+
+export interface NumberArray {
+  /** 1D array of numbers */
+  values: number[];
+}
+
 function createBaseEmpty(): Empty {
   return {};
 }
@@ -211,6 +221,108 @@ export const ArrayResponse: MessageFns<ArrayResponse> = {
   },
 };
 
+function createBaseNumberArray2D(): NumberArray2D {
+  return { matrix: [] };
+}
+
+export const NumberArray2D: MessageFns<NumberArray2D> = {
+  encode(message: NumberArray2D, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.matrix) {
+      NumberArray.encode(v!, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): NumberArray2D {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseNumberArray2D();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.matrix.push(NumberArray.decode(reader, reader.uint32()));
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  create(base?: DeepPartial<NumberArray2D>): NumberArray2D {
+    return NumberArray2D.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<NumberArray2D>): NumberArray2D {
+    const message = createBaseNumberArray2D();
+    message.matrix = object.matrix?.map((e) => NumberArray.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseNumberArray(): NumberArray {
+  return { values: [] };
+}
+
+export const NumberArray: MessageFns<NumberArray> = {
+  encode(message: NumberArray, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    writer.uint32(10).fork();
+    for (const v of message.values) {
+      writer.float(v);
+    }
+    writer.join();
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): NumberArray {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseNumberArray();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag === 13) {
+            message.values.push(reader.float());
+
+            continue;
+          }
+
+          if (tag === 10) {
+            const end2 = reader.uint32() + reader.pos;
+            while (reader.pos < end2) {
+              message.values.push(reader.float());
+            }
+
+            continue;
+          }
+
+          break;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  create(base?: DeepPartial<NumberArray>): NumberArray {
+    return NumberArray.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<NumberArray>): NumberArray {
+    const message = createBaseNumberArray();
+    message.values = object.values?.map((e) => e) || [];
+    return message;
+  },
+};
+
 /** 定义服务 */
 export type RandomizerServiceDefinition = typeof RandomizerServiceDefinition;
 export const RandomizerServiceDefinition = {
@@ -253,6 +365,15 @@ export const RandomizerServiceDefinition = {
       responseStream: true,
       options: {},
     },
+    /** 获取二维数组 */
+    get2DArray: {
+      name: "Get2DArray",
+      requestType: Empty,
+      requestStream: false,
+      responseType: NumberArray2D,
+      responseStream: false,
+      options: {},
+    },
   },
 } as const;
 
@@ -271,6 +392,8 @@ export interface RandomizerServiceImplementation<CallContextExt = {}> {
     request: Empty,
     context: CallContext & CallContextExt,
   ): ServerStreamingMethodResult<DeepPartial<ArrayResponse>>;
+  /** 获取二维数组 */
+  get2DArray(request: Empty, context: CallContext & CallContextExt): Promise<DeepPartial<NumberArray2D>>;
 }
 
 export interface RandomizerServiceClient<CallOptionsExt = {}> {
@@ -285,6 +408,8 @@ export interface RandomizerServiceClient<CallOptionsExt = {}> {
   getArray(request: DeepPartial<Empty>, options?: CallOptions & CallOptionsExt): Promise<ArrayResponse>;
   /** 获取640x512的数组流 */
   getArrayStream(request: DeepPartial<Empty>, options?: CallOptions & CallOptionsExt): AsyncIterable<ArrayResponse>;
+  /** 获取二维数组 */
+  get2DArray(request: DeepPartial<Empty>, options?: CallOptions & CallOptionsExt): Promise<NumberArray2D>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;

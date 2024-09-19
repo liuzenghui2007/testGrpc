@@ -20,17 +20,21 @@ class RandomizerService(randomizer_pb2_grpc.RandomizerServiceServicer):
             time.sleep(100/1000)  # 暂停1秒，避免过快发送
 
     def GetArray(self, request, context):
-        # 创建一个640x512的随机浮点数数组
+        # 创建一个640x1的随机浮点数数组
         array = [random.random() for _ in range(640)]
         return randomizer_pb2.ArrayResponse(row=array)
 
     def GetArrayStream(self, request, context):
-        # 持续发送640x512的随机浮点数数组
+        # 持续发送640的随机浮点数数组
         while True:
             array = [random.random() for _ in range(640)]
             yield  randomizer_pb2.ArrayResponse(row=array)
             time.sleep(100/1000)  # 暂停1秒，避免过快发送
-0
+    def Get2DArray(self, request, context):
+        # 创建一个640x512的随机浮点数数组
+        array = [randomizer_pb2.NumberArray(values=[random.random() for _ in range(512)]) for _ in range(640)]
+        return randomizer_pb2.NumberArray2D(matrix=array)
+
 
 
 def serve():

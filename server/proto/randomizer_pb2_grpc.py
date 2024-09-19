@@ -55,6 +55,11 @@ class RandomizerServiceStub(object):
                 request_serializer=proto_dot_randomizer__pb2.Empty.SerializeToString,
                 response_deserializer=proto_dot_randomizer__pb2.ArrayResponse.FromString,
                 _registered_method=True)
+        self.Get2DArray = channel.unary_unary(
+                '/randomizer.RandomizerService/Get2DArray',
+                request_serializer=proto_dot_randomizer__pb2.Empty.SerializeToString,
+                response_deserializer=proto_dot_randomizer__pb2.NumberArray2D.FromString,
+                _registered_method=True)
 
 
 class RandomizerServiceServicer(object):
@@ -89,6 +94,13 @@ class RandomizerServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Get2DArray(self, request, context):
+        """获取二维数组
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_RandomizerServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -111,6 +123,11 @@ def add_RandomizerServiceServicer_to_server(servicer, server):
                     servicer.GetArrayStream,
                     request_deserializer=proto_dot_randomizer__pb2.Empty.FromString,
                     response_serializer=proto_dot_randomizer__pb2.ArrayResponse.SerializeToString,
+            ),
+            'Get2DArray': grpc.unary_unary_rpc_method_handler(
+                    servicer.Get2DArray,
+                    request_deserializer=proto_dot_randomizer__pb2.Empty.FromString,
+                    response_serializer=proto_dot_randomizer__pb2.NumberArray2D.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -222,6 +239,33 @@ class RandomizerService(object):
             '/randomizer.RandomizerService/GetArrayStream',
             proto_dot_randomizer__pb2.Empty.SerializeToString,
             proto_dot_randomizer__pb2.ArrayResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Get2DArray(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/randomizer.RandomizerService/Get2DArray',
+            proto_dot_randomizer__pb2.Empty.SerializeToString,
+            proto_dot_randomizer__pb2.NumberArray2D.FromString,
             options,
             channel_credentials,
             insecure,
