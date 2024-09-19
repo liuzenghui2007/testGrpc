@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Start the gRPC server
-python3 server/server.py &
+python3 server.py &
 
 # Wait for the server to start
 sleep 2
 
 # Start grpcwebproxy
-grpcwebproxy \
+./grpcwebproxy-v0.15.0-linux-x86_64 \
     --backend_addr=localhost:50051 \
     --backend_tls_noverify \
     --server_http_debug_port=5001 \
