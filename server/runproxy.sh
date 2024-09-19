@@ -12,4 +12,6 @@ sleep 2
     --backend_tls_noverify \
     --server_http_debug_port=5001 \
     --run_tls_server=false \
-    --allow_all_origins
+    --allow_all_origins \
+    --server_http_max_read_timeout=1h \
+    --server_http_max_write_timeout=1h

@@ -13,23 +13,23 @@ export const main = async () => {
 		console.error('Error calling GetRandomString:', error);
 	}
 
-	// 调用 GetRandomUUIDStream 方法
-	try {
-		const stream = client.getRandomUUIDStream(Empty.create());
-		for await (const response of stream) {
-			console.log('Random UUID:', response.uuid);
-		}
-	} catch (error) {
-		console.error('Error calling GetRandomUUIDStream:', error);
-	}
+	// // 调用 GetRandomUUIDStream 方法
+	// try {
+	// 	const stream = client.getRandomUUIDStream(Empty.create());
+	// 	for await (const response of stream) {
+	// 		console.log('Random UUID:', response.uuid);
+	// 	}
+	// } catch (error) {
+	// 	console.error('Error calling GetRandomUUIDStream:', error);
+	// }
 
-	// 调用 GetArray 方法
-	try {
-		const arrayResponse = await client.getArray(Empty.create());
-		console.log('Array Response:', arrayResponse.row);
-	} catch (error) {
-		console.error('Error calling GetArray:', error);
-	}
+	// // 调用 GetArray 方法
+	// try {
+	// 	const arrayResponse = await client.getArray(Empty.create());
+	// 	console.log('Array Response:', arrayResponse.row);
+	// } catch (error) {
+	// 	console.error('Error calling GetArray:', error);
+	// }
 
 	// 调用 GetArrayStream 方法
 	try {

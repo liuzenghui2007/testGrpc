@@ -29,7 +29,8 @@ class RandomizerService(randomizer_pb2_grpc.RandomizerServiceServicer):
         while True:
             array = [random.random() for _ in range(640)]
             yield  randomizer_pb2.ArrayResponse(row=array)
-
+            time.sleep(100/1000)  # 暂停1秒，避免过快发送
+0
 
 
 def serve():
