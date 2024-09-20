@@ -18,6 +18,9 @@ service RandomizerService {
 
   // 获取二维数组
   rpc Get2DArray(Empty) returns (NumberArray2D);
+  
+  // 获取二维数组流
+  rpc Get2DArrayStream(Empty) returns (stream NumberArray2D);
 }
 
 // 空请求

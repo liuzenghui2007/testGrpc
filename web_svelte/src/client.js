@@ -41,10 +41,19 @@ export const main = async () => {
 	// 	console.error('Error calling GetArrayStream:', error);
 	// }
 	// 调用GEtArray2D方法
+	// try {
+	// 	const array2DResponse = await client.get2DArray(Empty.create());
+	// 	console.log('Array 2D Response:', array2DResponse.matrix);
+	// } catch (error) {
+	// 	console.error('Error calling GetArray2D:', error);
+	// }
+	// 调用GetArray2DStream方法
 	try {
-		const array2DResponse = await client.get2DArray(Empty.create());
-		console.log('Array 2D Response:', array2DResponse.matrix);
+		const array2DStream = client.get2DArrayStream(Empty.create());
+		for await (const response of array2DStream) {
+			console.log('Array 2D Stream Response:', response.matrix);
+		}
 	} catch (error) {
-		console.error('Error calling GetArray2D:', error);
+		console.error('Error calling GetArray2DStream:', error);
 	}
 };

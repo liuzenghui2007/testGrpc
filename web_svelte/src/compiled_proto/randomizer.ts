@@ -374,6 +374,15 @@ export const RandomizerServiceDefinition = {
       responseStream: false,
       options: {},
     },
+    /** 获取二维数组流 */
+    get2DArrayStream: {
+      name: "Get2DArrayStream",
+      requestType: Empty,
+      requestStream: false,
+      responseType: NumberArray2D,
+      responseStream: true,
+      options: {},
+    },
   },
 } as const;
 
@@ -394,6 +403,11 @@ export interface RandomizerServiceImplementation<CallContextExt = {}> {
   ): ServerStreamingMethodResult<DeepPartial<ArrayResponse>>;
   /** 获取二维数组 */
   get2DArray(request: Empty, context: CallContext & CallContextExt): Promise<DeepPartial<NumberArray2D>>;
+  /** 获取二维数组流 */
+  get2DArrayStream(
+    request: Empty,
+    context: CallContext & CallContextExt,
+  ): ServerStreamingMethodResult<DeepPartial<NumberArray2D>>;
 }
 
 export interface RandomizerServiceClient<CallOptionsExt = {}> {
@@ -410,6 +424,8 @@ export interface RandomizerServiceClient<CallOptionsExt = {}> {
   getArrayStream(request: DeepPartial<Empty>, options?: CallOptions & CallOptionsExt): AsyncIterable<ArrayResponse>;
   /** 获取二维数组 */
   get2DArray(request: DeepPartial<Empty>, options?: CallOptions & CallOptionsExt): Promise<NumberArray2D>;
+  /** 获取二维数组流 */
+  get2DArrayStream(request: DeepPartial<Empty>, options?: CallOptions & CallOptionsExt): AsyncIterable<NumberArray2D>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;

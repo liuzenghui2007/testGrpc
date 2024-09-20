@@ -35,7 +35,12 @@ class RandomizerService(randomizer_pb2_grpc.RandomizerServiceServicer):
         array = [randomizer_pb2.NumberArray(values=[random.random() for _ in range(512)]) for _ in range(640)]
         return randomizer_pb2.NumberArray2D(matrix=array)
 
-
+    def Get2DArrayStream(self, request, context):
+        # 持续发送640x512的随机浮点数数组
+        while True:
+            array = [randomizer_pb2.NumberArray(values=[random.random() for _ in range(512)]) for _ in range(640)]
+            yield randomizer_pb2.NumberArray2D(matrix=array)
+            time.sleep(100/1000)
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
