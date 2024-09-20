@@ -51,7 +51,7 @@ export const main = async () => {
 	try {
 		const array2DStream = client.get2DArrayStream(Empty.create());
 		for await (const response of array2DStream) {
-			console.log('Array 2D Stream Response:', response.matrix);
+			console.log('Array 2D Stream Response:', response.matrix, response.secondsSinceStart);
 		}
 	} catch (error) {
 		console.error('Error calling GetArray2DStream:', error);

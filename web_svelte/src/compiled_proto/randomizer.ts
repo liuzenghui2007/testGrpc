@@ -33,6 +33,7 @@ export interface ArrayResponse {
 export interface NumberArray2D {
   /** Each row is an array of numbers */
   matrix: NumberArray[];
+  secondsSinceStart: number;
 }
 
 export interface NumberArray {
@@ -222,13 +223,16 @@ export const ArrayResponse: MessageFns<ArrayResponse> = {
 };
 
 function createBaseNumberArray2D(): NumberArray2D {
-  return { matrix: [] };
+  return { matrix: [], secondsSinceStart: 0 };
 }
 
 export const NumberArray2D: MessageFns<NumberArray2D> = {
   encode(message: NumberArray2D, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     for (const v of message.matrix) {
       NumberArray.encode(v!, writer.uint32(10).fork()).join();
+    }
+    if (message.secondsSinceStart !== 0) {
+      writer.uint32(17).double(message.secondsSinceStart);
     }
     return writer;
   },
@@ -247,6 +251,13 @@ export const NumberArray2D: MessageFns<NumberArray2D> = {
 
           message.matrix.push(NumberArray.decode(reader, reader.uint32()));
           continue;
+        case 2:
+          if (tag !== 17) {
+            break;
+          }
+
+          message.secondsSinceStart = reader.double();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -262,6 +273,7 @@ export const NumberArray2D: MessageFns<NumberArray2D> = {
   fromPartial(object: DeepPartial<NumberArray2D>): NumberArray2D {
     const message = createBaseNumberArray2D();
     message.matrix = object.matrix?.map((e) => NumberArray.fromPartial(e)) || [];
+    message.secondsSinceStart = object.secondsSinceStart ?? 0;
     return message;
   },
 };

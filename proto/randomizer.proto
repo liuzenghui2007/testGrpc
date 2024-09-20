@@ -44,6 +44,7 @@ message ArrayResponse {
 
 message NumberArray2D {
   repeated NumberArray matrix = 1; // Each row is an array of numbers
+  double seconds_since_start = 2;
 }
 
 message NumberArray {
