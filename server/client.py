@@ -1,6 +1,8 @@
 import grpc
-import randomizer_pb2
-import randomizer_pb2_grpc
+
+# 这里从server和proto导入都可以？
+from proto import randomizer_pb2
+from proto import randomizer_pb2_grpc
 
 def run():
     # 连接到服务器
