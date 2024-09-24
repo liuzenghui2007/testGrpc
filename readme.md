@@ -2,6 +2,10 @@
 
 # https://github.com/gto76/python-cheatsheet
 
+# wtfpython
+
+https://github.com/leisurelicht/wtfpython-cn
+
 # [d]()iagrams
 
 https://diagrams.mingrammer.com/docs/getting-started/examples
