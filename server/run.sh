@@ -30,7 +30,7 @@ sleep 2
     --backend_addr=localhost:50051 \
     --run_tls_server=false \
     --allow_all_origins \
-    --server_http_debug_port=8080
+    --server_http_debug_port=5001
 
 # Kill the Python server when the script exits
 trap "kill $!" EXIT
